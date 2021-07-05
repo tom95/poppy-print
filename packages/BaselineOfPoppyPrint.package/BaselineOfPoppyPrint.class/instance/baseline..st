@@ -4,6 +4,8 @@ baseline: spec
 
 	spec for: #common do: [
 		spec
-			package: 'PoppyPrint-Tests' with: [spec requires: 'default'];
+			package: 'PoppyPrint-Core' with: [spec postLoadDoIt: #postLoadCore];
 			package: 'PoppyPrint-Tests' with: [spec requires: 'PoppyPrint-Core'].
-		spec postLoadDoIt: #postLoadCore]
+		spec
+			group: 'default' with: #('PoppyPrint-Core');
+			group: 'tests' with: #('PoppyPrint-Tests')]
