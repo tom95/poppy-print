@@ -1,4 +1,5 @@
 baseline
 postLoadCore
 
-	PPFormatter addFormatOnSaveToPreferences
+	PPFormatter addFormatOnSaveToPreferences.
+	Transcript showln: 'BaselineOfPoppyPrint>>#postLoadCore was executed.'
