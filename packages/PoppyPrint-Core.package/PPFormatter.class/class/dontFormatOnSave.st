@@ -1,0 +1,4 @@
+preferences
+dontFormatOnSave
+
+	SystemChangeNotifier uniqueInstance noMoreNotificationsFor: self

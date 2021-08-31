@@ -1,17 +1,33 @@
 format
 formatString: aString class: aClass noPattern: aBoolean notifying: anObject
 
-	| formatter methodNode |
-	self example: 'string test' receiver: [PPFormatter] args: [{'self halt; yourself'. UndefinedObject. true. nil}].
+	| formatter methodNode formattedSource originalLabelPositions formattedLabelPositions |
+	self
+		example: 'string test'
+		receiver: [PPFormatter]
+		args: [{'self halt; yourself'. UndefinedObject. true. nil}].
 	
 	methodNode := PPParser new
 		encoderClass: PPFormatEncoder;
 		parse: (aString string codeWithEmptyLineMarkersNoPattern: aBoolean)
-		class: aClass
-		noPattern: aBoolean
-		notifying: anObject
-		ifFail: nil.
-	
+			class: aClass
+			noPattern: aBoolean
+			notifying: anObject
+			ifFail: nil.
 	formatter := self new initForNode: methodNode.
 	methodNode accept: formatter.
-	^ aBoolean ifTrue: [self stripMethodPattern: formatter contents] ifFalse: [formatter contents]
+	"handle nonFormatting Labels"
+	formattedSource := formatter contents.
+	originalLabelPositions := self findAllNonFormattingLabels: aString.
+	formattedLabelPositions := self findAllNonFormattingLabels: formattedSource.
+	
+	formattedLabelPositions ifNotEmpty: [
+		formattedSource := self
+			combine: formattedSource
+			and: aString
+			usingFormattedLabels: formattedLabelPositions
+			andOriginalLabels: originalLabelPositions].
+	formattedLabelPositions ifEmpty: [formattedSource := self clearOutStopLabels: formattedSource].
+	^ aBoolean
+		ifTrue: [self stripMethodPattern: formatter contents]
+		ifFalse: [formattedSource]

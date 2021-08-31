@@ -1,4 +1,4 @@
 configuration
 maxLineLength
 
-	^ 100
+	^ 80

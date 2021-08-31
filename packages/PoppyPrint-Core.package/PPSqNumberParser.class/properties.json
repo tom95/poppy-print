@@ -1,0 +1,15 @@
+{
+	"category" : "PoppyPrint-Core",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "T.S. 7/30/2021 15:11",
+	"instvars" : [
+		"leadingZeroAmount",
+		"leadingZerosSettled" ],
+	"name" : "PPSqNumberParser",
+	"pools" : [
+		 ],
+	"super" : "SqNumberParser",
+	"type" : "normal" }

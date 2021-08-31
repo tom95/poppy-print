@@ -5,17 +5,18 @@ startOfMethodBody: aString
 		init: (ReadStream on: aString asString)
 		cue: (CompilationCue source: aString)
 		failBlock: [^ nil].
-
-	hereType == #word ifTrue: [^ hereEnd].
 	
-	(hereType == #binary or: [hereType == #verticalBar]) ifTrue: [
-		self advance.
-		^ hereEnd].
+	self hereType == #word ifTrue: [^ self hereEnd].
 	
-	hereType == #keyword ifTrue: [ | lastEnd |
-		[hereType == #keyword] whileTrue: [
+	(#(#binary #verticalBar) includes: self hereType)
+		ifTrue: [
 			self advance.
-			lastEnd := hereEnd.
+			^ self hereEnd].
+	
+	self hereType == #keyword ifTrue: [ | lastEnd |
+		[self hereType == #keyword] whileTrue: [
+			self advance.
+			lastEnd := self hereEnd.
 			self argumentName].
 		^ lastEnd].
 	
